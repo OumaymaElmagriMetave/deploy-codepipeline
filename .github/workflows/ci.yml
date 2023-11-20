@@ -32,7 +32,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: myrepository20022
         IMAGE_TAG: ${{ github.sha }}
+        REPOSITORY_NAME: $(echo myrepository20022 | tr '[:upper:]' '[:lower:]')
       run: |
-        docker image ls -f reference=accountID.dkr.ecr.region.amazonaws.com/myrepository20022:latest | while read image; do docker rmi $image; done
+        docker image ls -f reference=accountID.dkr.ecr.region.amazonaws.com/$REPOSITORY_NAME:latest | while read image; do docker rmi $image; done  
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
