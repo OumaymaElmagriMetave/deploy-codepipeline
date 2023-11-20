@@ -41,3 +41,5 @@ jobs:
     docker image ls -f reference=accountID.dkr.ecr.region.amazonaws.com/react-app-repository:latest | while read image; do docker rmi $image; done
     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
     docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+
+#1
