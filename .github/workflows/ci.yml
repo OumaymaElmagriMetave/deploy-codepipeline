@@ -6,19 +6,12 @@ on:
 
 jobs:
   deploy:
-    name: Build and Deploy
+    name: Build image
     runs-on: ubuntu-latest
 
     steps:
     - name: Check out code
       uses: actions/checkout@v2
-
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'v1.21.3'
-      id: install
-
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -39,22 +32,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: myrepository20022
         IMAGE_TAG: ${{ github.sha }}
+        REPOSITORY_NAME: $(echo myrepository20022 | tr '[:upper:]' '[:lower:]')
       run: |
+        docker image ls -f reference=accountID.dkr.ecr.region.amazonaws.com/$REPOSITORY_NAME:latest | while read image; do docker rmi $image; done  
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
-
-    - name: Create EKS cluster
-      run: |
-        eksctl create cluster \
-          --name my-simple-bank-eks22 \
-          --region us-east-1 \
-          --node-type t3.micro \
-          --nodes-min 2 \
-          --nodes-max 2
-
-    - name: Update kube config
-      run: aws eks update-kubeconfig --name my-simple-bank-eks22 --region us-east-1
-
-    - name: Deploy image to Amazon EKS
-      run: |
-        kubectl apply -f eks/deployment.yaml
