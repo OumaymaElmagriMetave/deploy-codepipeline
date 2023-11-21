@@ -30,15 +30,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Create EKS cluster
-      run: |
-        eksctl create cluster \
-          --name my-simple-bank-eks22 \
-          --region us-east-1 \
-          --node-type t3.micro \
-          --nodes-min 2 \
-          --nodes-max 2
-
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
@@ -54,6 +45,15 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+
+    - name: Create EKS cluster
+          run: |
+            eksctl create cluster \
+              --name my-simple-bank-eks22 \
+              --region us-east-1 \
+              --node-type t3.micro \
+              --nodes-min 2 \
+              --nodes-max 2
 
     - name: Update kube config
       run: aws eks update-kubeconfig --name my-simple-bank-eks22 --region us-east-1
