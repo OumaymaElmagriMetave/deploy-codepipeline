@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: react-app-deployment
+  name: test-ecr-eks
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: react-app
+      app: test-ecr-eks
   template:
     metadata:
       labels:
-        app: react-app
+        app: test-ecr-eks
     spec:
       containers:
-      - name: react-app-container
-        image: 927770512418.dkr.ecr.us-east-1.amazonaws.com/myrepository20022:1.1
+      - name: test-ecr-eks
+        image: 282302598938.dkr.ecr.us-east-1.amazonaws.com/test-ecr-eks:1.1
