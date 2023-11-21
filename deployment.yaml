@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: react-app-container
-        image: <ECR_REGISTRY>/myrepository20022:<IMAGE_TAG>
+        image: 927770512418.dkr.ecr.us-east-1.amazonaws.com/myrepository20022:1.1
