@@ -47,13 +47,13 @@ jobs:
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
     - name: Create EKS cluster
-          run: |
-            eksctl create cluster \
-              --name my-simple-bank-eks22 \
-              --region us-east-1 \
-              --node-type t3.micro \
-              --nodes-min 2 \
-              --nodes-max 2
+      run: |
+        eksctl create cluster \
+          --name my-simple-bank-eks22 \
+          --region us-east-1 \
+          --node-type t3.micro \
+          --nodes-min 2 \
+          --nodes-max 2
 
     - name: Update kube config
       run: aws eks update-kubeconfig --name my-simple-bank-eks22 --region us-east-1
