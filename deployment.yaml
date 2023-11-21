@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: test-ecr-eks
-        image: 282302598938.dkr.ecr.us-east-1.amazonaws.com/test-ecr-eks:1.1
+        image: 615577564605.dkr.ecr.us-east-1.amazonaws.com/test-ecr-eks:1.1
