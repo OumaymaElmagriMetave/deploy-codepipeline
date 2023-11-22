@@ -36,4 +36,5 @@ jobs:
       run: aws eks --region us-east-1 update-kubeconfig --name test-ecr-eks
 
     - name: Deploy To Eks
-      run: kubectl apply -f deployment.yml -f service.yml
+      run: kubectl apply -f deployment.yaml -f service.yaml
+    
