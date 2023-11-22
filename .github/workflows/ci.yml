@@ -11,11 +11,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'v1.24.0' 
-      id: install
+    - name: Install Kubectl
+      uses: azure/setup-kubectl@v2.0
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -38,9 +35,9 @@ jobs:
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
     - name: Update kube config
-      run: aws eks update-kubeconfig --name test-ecr-eks
+      run: aws eks --region us-east-1 update-kubeconfig --name test-ecr-eks
  
     - name: Deploy to EKS
       run: |
         kubectl apply -f deployment.yaml
-        kubectl apply -f services.yaml
+        kubectl apply -f service.yaml

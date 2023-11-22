@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-ecr-eks
+  name: react-app-deployment
   labels:
     app: test-ecr-eks
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: test-ecr-eks
@@ -15,8 +15,8 @@ spec:
         app: test-ecr-eks
     spec:
       containers:
-      - name: test-ecr-eks
-        image: 211446123712.dkr.ecr.us-east-1.amazonaws.com/test-ecr-eks:${{ github.sha }}
-        imagePullPolicy: Always
-        ports:
-          - containerPort: 3000
+        - name: test-ecr-eks
+          image: 211446123712.dkr.ecr.us-east-1.amazonaws.com/test-ecr-eks:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000 # Should match the port your React app is running on
