@@ -31,8 +31,8 @@ jobs:
         REPOSITORY: test-ecr-eks
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $REGISTRY/REPOSITORY:$IMAGE_TAG -t $REGISTRY/REPOSITORY:latest .
-        docker push -a $REGISTRY/REPOSITORY
+        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
+        docker push -a $REGISTRY/$REPOSITORY
 
     - name: Update kube config
       run: aws eks --region us-east-1 update-kubeconfig --name test-ecr-eks
